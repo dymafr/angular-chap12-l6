@@ -24,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public erreursForm = {
     name: "",
     email: "",
-    confirmEmail: ""
+    confirmEmail: "",
+    form: ""
   };
 
   public messagesErreur = {
@@ -38,6 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
       asyncEmailValidator: "L'email n'existe pas."
     },
     confirmEmail: {
+      email: "Rentrez une adresse email valide."
+    },
+    form: {
       noMatch: "Les emails ne correspondent pas."
     }
   };
@@ -64,9 +68,9 @@ export class AppComponent implements OnInit, OnDestroy {
           [Validators.required, Validators.email],
           this.asyncEmailValidator()
         ),
-        confirmEmail: new FormControl("")
+        confirmEmail: new FormControl("", Validators.email)
       },
-      { validators: this.emailsMatch() }
+      this.emailsMatch()
     );
   }
 
@@ -112,8 +116,16 @@ export class AppComponent implements OnInit, OnDestroy {
     const form = this.form;
     for (const field in this.erreursForm) {
       this.erreursForm[field] = "";
-      const control = form.get(field);
-      console.log(control);
+      let control: AbstractControl;
+      if (
+        field === "form" &&
+        form.get("email").touched &&
+        form.get("confirmEmail").dirty
+      ) {
+        control = form;
+      } else {
+        control = form.get(field);
+      }
       if (control && control.touched && control.invalid) {
         const messages = this.messagesErreur[field];
         for (const key in control.errors) {
