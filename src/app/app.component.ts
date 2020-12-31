@@ -47,9 +47,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.createForm();
 
-    this.subscription = this.form.statusChanges.subscribe(() =>
-      this.changementStatusForm()
-    );
+    this.subscription = this.form.statusChanges.subscribe(() => {
+      this.changementStatusForm();
+    });
   }
 
   createForm() {
