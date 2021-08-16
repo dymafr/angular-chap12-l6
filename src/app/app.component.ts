@@ -12,13 +12,6 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface ErreursForm {
-  name: string;
-  email: string;
-  confirmEmail: string;
-  form: string;
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,14 +32,14 @@ export class AppComponent implements OnInit, OnDestroy {
   );
   public subscription: Subscription = new Subscription();
 
-  public erreursForm: ErreursForm = {
+  public erreursForm: { [field: string]: string } = {
     name: '',
     email: '',
     confirmEmail: '',
     form: ''
   };
 
-  public messagesErreur = {
+  public messagesErreur: { [field: string]: { [field: string]: string } } = {
     name: {
       required: 'Ce champ est requis.',
       minlength: 'Vos nom et prénom doivent faire au moins 4 caractères.'
