@@ -108,7 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const form = this.form;
     for (const field in this.erreursForm) {
-      this.erreursForm[field as keyof ErreursForm] = '';
+      this.erreursForm[field] = '';
       let control: AbstractControl;
       if (
         field === 'form' &&
@@ -120,9 +120,9 @@ export class AppComponent implements OnInit, OnDestroy {
         control = form.get(field)!;
       }
       if (control && control.touched && control.invalid) {
-        const messages = this.messagesErreur[field as keyof ErreursForm];
+        const messages = this.messagesErreur[field];
         for (const key in control.errors) {
-          this.erreursForm[field as keyof ErreursForm] += messages[key] + ' ';
+          this.erreursForm[field] += messages[key] + ' ';
         }
       }
     }
